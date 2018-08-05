@@ -1,9 +1,11 @@
 package com.example.gustavoveras.gvs_api
 
+import android.arch.persistence.room.Room
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import com.example.gustavoveras.gvs_api.Database.AppDataBase
 import com.example.gustavoveras.gvs_api.model.api.StarWarsApi
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -30,5 +32,15 @@ class MainActivity : AppCompatActivity() {
         },{
             movieAdapter.notifyDataSetChanged()
         })
+
+        val database = Room.databaseBuilder(this, AppDataBase::class.java, "meubanco").allowMainThreadQueries().build()
+
+        var filmDao = database.filmDao()
+
+        filmDao.add(Film(title = "Teste Filme" , episode_id = 2, Characters = "Luke"))
+
+        filmDao.all()
     }
+
+
 }
